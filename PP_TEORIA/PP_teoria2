@@ -1,0 +1,93 @@
+# let x = 10;;
+val x : int = 10
+# x + 1;;
+- : int = 11
+# let x = 1024 in x * x * x;; 
+- : int = 1073741824
+# x * x * x;;
+- : int = 1000
+# 1 + let x = 1024 in x * x * x;;
+- : int = 1073741825
+# ley y = let x = 1024 in x * x * x;;
+Error: Unbound value ley
+# let y = let x = 1024 in x * x * x;;
+val y : int = 1073741824
+# y;;
+- : int = 1073741824
+# x;;
+- : int = 10
+# let x = x + 1 in x * x * x;;
+- : int = 1331
+# 11 * 11 * 11;;
+- : int = 1331
+# x;; 
+- : int = 10
+# let x = 2 * x int let x = x + 1 in x * x * x;;
+Error: Syntax error
+# let x = 2 * x in let x = x + 1 in x * x * x;;
+- : int = 9261
+# 21 * 21 * 21;;
+- : int = 9261
+# not;;
+- : bool -> bool = <fun>
+# let no = not;;
+val no : bool -> bool = <fun>
+# function true -> false | false -> true;;
+- : bool -> bool = <fun>
+# 2 < 3 ;;                                 
+- : bool = true
+# (function true -> false | false -> true) ( 2 < 3);;
+- : bool = false
+# (function true -> false | false -> true) (2/0  < 3);;
+Exception: Division_by_zero.
+# function true -> false;;
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+false
+- : bool -> bool = <fun>
+# (function true -> false) (2 < 3) ;;
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+false
+- : bool = false
+# (function true -> false) (2 > 3) ;;
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+false
+Exception: Match_failure ("//toplevel//", 1, 0).
+# let always _true = function true -> true | false -> true;;
+val always : 'a -> bool -> bool = <fun>
+# let always_true = function true -> true | false -> true;; 
+val always_true : bool -> bool = <fun>
+# always_true true;;
+- : bool = true
+# always_true false;;
+- : bool = true
+# let all_to_true = function _ -> true;;
+val all_to_true : 'a -> bool = <fun>
+# all_to_true "manolo";;
+- : bool = true
+# all_to_true abs;;
+- : bool = true
+# 
+
+
+# let doble = function x -> 2 * x;; 
+val doble : int -> int = <fun>
+# let doble x = 2 * x;;
+val doble : int -> int = <fun>
+# let alltrue _ = true;;
+Alert deprecated: ISO-Latin1 characters in identifiers
+val alltrue : 'a -> bool = <fun>
+# let alltrue _ = true;;
+val alltrue : 'a -> bool = <fun>
+# let id x = x;;
+val id : 'a -> 'a = <fun>
+# id 'A';;
+- : char = 'A'
+# id abs (-7);;
+- : int = 7
+# id abs va de int -> int a int -> int;;
+Error: Syntax error
+# 
+

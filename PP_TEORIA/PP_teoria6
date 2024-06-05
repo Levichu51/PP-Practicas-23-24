@@ -1,0 +1,142 @@
+# let rec quo x y = (* x >= 0, y > 0 *) if x < y then 0 else 1 + quo (x - y) y;;
+val quo : int -> int -> int = <fun>
+# let rec rem x y = (* x >= 0 , y > 0 *) if x < y then x else rem (x - y) y;;
+val rem : int -> int -> int = <fun>
+# rem 7 3;;
+- : int = 1
+# quo 10000000 1;;
+Stack overflow during evaluation (looping recursion?).
+# rem 10000000 �1;;
+Alert deprecated: ISO-Latin1 characters in identifiers
+Error: Unbound constructor �1
+# rem 10000000 1;; 
+- : int = 0
+# let div x y = quo x y , rem x y;;
+val div : int -> int -> int * int = <fun>
+# div 7 2;;
+- : int * int = (3, 1)
+# let rec div x y = if x < y then (0, x) else 1 + fst (div (x - y) y), snd (div (x - y) y);;
+val div : int -> int -> int * int = <fun>
+# div 7 3;;
+- : int * int = (2, 1)
+# div 7 2;;
+- : int * int = (3, 1)
+# (*ineficiente funcion se ejecuta 2 elevado al divisor*);;
+# let rec div x y = if x < y then (0, x) else let qr = div (x- y) y in 1 + fst qr, snd qr;;
+val div : int -> int -> int * int = <fun>
+# div 60 1;;
+- : int * int = (60, 0)
+# let rec div x y = if x < y then (0, x) else let (q,r) = div (x- y) y in 1 + q, r;;
+val div : int -> int -> int * int = <fun>
+# (*mejor esta funcion por temas de patter matching y comodidad, no se calcula 2 veces*);;
+
+# let rec fib n = (* n>= 0 *) if n <= 1 then n else fib (n - 1) + fib (n - 2);;
+val fib : int -> int = <fun>
+# fib 4;;
+- : int = 3
+# fib 345;;
+Interrupted.
+# let k = (1. +. sqrt 5.) / 2.;;
+Error: This expression has type float but an expression was expected of type
+         int
+# let k = (1. +. sqrt 5.) /. 2.;;
+val k : float = 1.6180339887498949
+# let t70 = 2.59 *. k ** 30.;;
+val t70 : float = 4818689.81999861263
+# t70 /. 3600 /. 24;;
+Error: This expression has type int but an expression was expected of type
+         float
+# t70 /. 3600. /. 24.;;
+- : float = 55.771872916650608
+
+let rec fib2 = function
+	0 -> (1,0) (*antes se usaba 1, mejor 0 que hay que incluirlo, stack overflow en los negativos que llegan a minint*)
+	| n -> let f1, f2 = fib2 (n - 1) in
+		(f1 + f2, f1);;
+		
+(*funcion mas eficiente, solo una llamada recursiva*)
+
+let fib n = fst (fib2 n);;
+
+Sys.time;;
+(* funcion falsa no es programacion funcional *)
+
+let crono f x = let t = Sys.time () in let _ = f x in Sys.time () -. t;;
+
+let fib' n = 
+     let rec aux (i, f, a) = 
+     		if i = n then f
+     		else aux (i + 1, f + a, f)
+     	     in aux (0, 0, 1);;	(*si es negativo, por ej -1 tardará en ir de abajo a arriba*)	
+     	     
+     	     
+let rec rep n f x = 
+	if n = 0 then () 
+	else let _ = f x in 
+		rep (n - 1) f x;;
+		
+		
+		
+#crono (rep 1000 ffib) 250_000;;	
+
+#[1; 2; 3; 4; 5];;
+- : int list = [1; 2; 3; 4; 5];; (* hay int, bool, int * int, char list...*)
+#[];;
+- : 'a list = []
+
+let l1 = [1; 2; 3];;
+let l2 = [5; 0];;
+
+List.hd;;
+
+List.hd l1;;  (*cabeza de la lista*)
+- : int = 1;;
+
+List.tl;; (*trunca la lista y la devuelve sin el head*)
+
+List.tl l1;;
+- : int list = [2; 3]
+	
+(@);;
+- : 'a list -> a' list -> a' list = <fun>
+l1 @ l2;; (*concatena la lista*)
+
+# List.hd [];; 
+Exception: Failure "hd".
+# List.tl [];; 
+Exception: Failure "tl".
+# 
+
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+	
+	      	     
+     		
+     		
+     		
+     		
+     		
+     		
+
+
+
+
+
+
+
+
+
+

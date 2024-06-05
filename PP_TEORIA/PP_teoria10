@@ -1,0 +1,413 @@
+PROGRAMACION IMPERATIVA
+
+
+- : 'a -> 'a ref = <fun>
+# ref 1;;
+- : int ref = {contents = 1}
+# let n = ref 0;;
+val n : int ref = {contents = 0}
+# (!);;
+- : 'a ref -> 'a = <fun>
+# !n;;
+- : int = 0
+# !n + 4;;
+- : int = 4
+# (:=);;
+- : 'a ref -> 'a -> unit = <fun>
+# n := !n + 1;;
+- : unit = ()
+# !n;;
+- : int = 1
+
+
+Funcion Counter.next
+
+let n = ref 0;;
+
+let next () = 
+	let _ = n := !n + 1 in !n;;
+	
+	
+let next () = 
+	let _ = n := !n + 1;
+	!n;;
+	
+	
+let next () = 
+	let n = ref 0 in
+	n:= !n + 1;
+	!n;;
+	
+	
+let next () = function () ->
+	let n = ref 0 in
+	n:= !n + 1;
+	!n;;
+	
+let next () = 
+	let n = ref 0 in
+	function () ->
+		n:= !n + 1;
+		!n;;
+		
+
+let n = ref 0;;
+
+let next () = 
+	n := !n + 1; !n;;
+	
+let reset () = 
+	n := 0;;
+	
+let next = 
+	let n = ref 0 in 
+	function () -> n := !n + 1; !n;;
+
+
+let next, reset = 
+	let n = ref 0 in
+	(function () -> n := !n + 1, !n),
+	(function () -> n := 0);;
+
+
+
+
+		
+		
+ARRAY 
+
+let v = [|1;2;3|]
+	
+	
+	
+	
+REGISTROS
+
+type person = {name : string; age : int};;
+
+let older p = 
+	{name = p.name; age = p.age + 1};;
+
+
+let ord p1 p2 = 
+	p1.age < p2.age || p1.age = p2.age && p1.name <= p2.name;;
+
+
+let older p = 
+	{p with age = p.age + 1};;
+
+
+let older {name = n; age = a} = 
+	{name = n; age = a + 1};; (* pattern matching *)
+
+
+type person = {name : string; mutable age : int};;
+
+
+let aged p = 
+	p.age <- p.age + 1;;
+	
+	
+type 'a var = {mutable valor : 'a};;
+
+
+let initvar x = {valor = x};;
+
+
+let (!!) v = v.valor;;
+
+let (<<) v x = v.valor <- x;; (* es como 'a ref *)
+
+
+# type person = {name : string; age : int};;
+type person = { name : string; age : int; }
+# {name = "MANOLO"; age = 34 };;
+- : person = {name = "MANOLO"; age = 34}
+# let p1 = {name = "MANOLO"; age = 34 };;
+val p1 : person = {name = "MANOLO"; age = 34}
+# let p2 = {name = "CHUVI"; age = 35 };; 
+val p2 : person = {name = "CHUVI"; age = 35}
+# p2.age;;
+- : int = 35
+# p1.name;;
+- : string = "MANOLO"
+# p1.age < p2.age;;
+- : bool = true
+# let order p = 
+        { {name = p.name; age = p.age + 1};;
+val order : person -> person = <fun>
+# p1;;
+- : person = {name = "MANOLO"; age = 34}
+# order p1;;
+- : person = {name = "MANOLO"; age = 35}
+# let ord p1 p2 = 
+        p1.  age < p2.age || p1.age = p2.age && p1.name <= p2.name;;
+val ord : person -> person -> bool = <fun>
+# ord p1 p2;;
+- : bool = true
+# ord p2 p1;;
+- : bool = false
+# p1;;
+- : person = {name = "MANOLO"; age = 34}
+# type person = {name : string; mutable age : int}
+  ;;
+type person = { name : string; mutable age : int; }
+# let p1 = {name = "JOZELUIZ"; age = 56};;                          
+val p1 : person = {name = "JOZELUIZ"; age = 56}
+# order p1;;
+Error: This expression has type person/1
+       but an expression was expected of type person/2
+# order p2;;
+- : person/2 = {name = "CHUVI"; age = 36}
+# order p2;;
+- : person/2 = {name = "CHUVI"; age = 36}
+# p1.age <- 22;;
+- : unit = ()
+# p1;;
+- : person = {name = "JOZELUIZ"; age = 22}
+# let aged p = 
+        p  .age <- p.age + 1;;
+val aged : person -> unit = <fun>
+# aged p1;;
+- : unit = ()
+# p1;;
+- : person = {name = "JOZELUIZ"; age = 23}
+# type 'a var = {mutable valor : 'a};;
+type 'a var = { mutable valor : 'a; }
+# let initvar x = {valor = x};;
+val initvar : 'a -> 'a var = <fun>
+# initvar 'a';;
+- : char var = {valor = 'a'}
+# {valor = 7};;
+- : int var = {valor = 7}
+# let initvar x = {valor = x};;
+val initvar : 'a -> 'a var = <fun>
+# let (!!) v = v.valor;;
+val ( !! ) : 'a var -> 'a = <fun>
+# let (<<) v x = v.valor <- x;;
+val ( << ) : 'a var -> 'a -> unit = <fun>
+# let n = initvar 0;;
+val n : int var = {valor = 0}
+# !!n;;
+- : int = 0
+# n << !!n + 1;;
+- : unit = ()
+# !!n;;
+- : int = 1
+
+
+
+(*sobre objetos*)
+
+module Counter : sig
+	val next : unit -> int
+	val reset : unit -> unit
+end = struct
+	let n = ref 0
+	let next () =
+		n := !n + 1; !n
+		let reset () = 
+			n := 0
+end;;
+
+(*functores*)
+
+
+module NewCounter () : sig
+	val next : unit -> int
+	val reset : unit -> unit
+end = struct
+	let n = ref 0
+	let next () =
+		n := !n + 1; !n
+		let reset () = 
+			n := 0
+end;;
+
+(*registros*)
+
+type counter = {next : unit -> int; reset : unit -> unit};;
+
+
+let counter = 
+	let n = ref 0 in
+	{next = (function () -> n := !n + 1; !n);
+	 reset = (function () -> n := 0)};;
+
+
+let new_counter () = 
+	let n = ref 0 in
+	{next = (function () -> n := !n + 1; !n);
+	 reset = (function () -> n := 0)};;
+
+
+(*objetos*)
+
+
+let counter = object
+	val mutable n = 0
+	method next = n <- n + 1; n
+	method reset = n <- 0
+end;;
+
+let doble_o o = object
+	val mutable n = o#next
+	method next = n <- n - 1, n
+end;;
+
+
+let new_counter () = object
+	val mutable n = 0
+	method next = n <- n + 1; n
+	method reset = n <- 0
+end;;  
+
+val new_counter : unit -> < next : int; reset : unit > = <fun>
+
+
+# let objeto = object method suma = 1 end;;
+val objeto : < suma : int > = <obj>
+
+
+
+class new_counter = object
+	val mutable n = 0
+	method next = n <- n + 1; n
+	method reset = n <- 0
+end;;
+
+let c4 = new new_counter;;
+
+
+let doble c = 2 * c#next;;
+
+let c3 = new counter
+and c4 = new counter;;
+
+class counter_with_set = object
+	inherit counter
+	method set x = n <- x (* aparecera todo lo heredado de counter *)
+end;;
+
+
+let l = [c1;c2;(c3:>counter)];; (*se coge los atributos comunes para tener el mismo comportamiento*)
+
+
+
+class virtual foo1 = object
+	method virtual m : int
+end;;
+
+class virtual foo1 : object method virtual m : int end
+
+
+class foo2 = object
+	inherit foo1
+	method m = 0
+end;;
+
+class foo2 : object method m : int end
+
+
+class foo3 = object
+	val o = new foo2
+	method m = o#m
+end;;
+
+class foo3 : object val o : foo2 method m : int end
+
+
+class counter_with_init ini = object (self) (* es como this *)
+	inherit counter_with_set
+	method reset = self#set ini
+	initializer self#reset
+end;;
+
+
+class counter_with_step = object (self)
+	inherit counter_with_init 0 as super
+	val mutable step = 1
+	method next = n <- n + step; n
+	method set_step s = step <- s
+	method reset = super#reset; self#set_step 1
+end;;
+
+
+class counter_with_max = object (self)
+	inherit counter_with_step as super
+	method next = 
+		let next = super#next in
+		if next > max
+		then (self#reset; self#next)
+		else next
+end;;
+
+
+(* una pila con objetos *)
+
+
+exception EmptyStack;;
+
+class ['a] stack = 
+   object
+   	val mutable l = ([] : 'a list)
+   	method push x = 
+   	  l <- x :: l
+   	method pop = match l with
+   	  [] -> raise EmptyStack
+   	  | h :: t -> l <- t; h
+   	method peek = match l with
+   	  [] -> raise EmptyStack
+   	  | h :: _ -> h
+end;;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

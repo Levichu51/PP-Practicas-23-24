@@ -1,0 +1,77 @@
+# let s = function x -> function y -> x + y;;
+val s : int -> int -> int = <fun>
+# let s x = function y -> x + y;;
+val s : int -> int -> int = <fun>
+# let s x y = x + y;;
+val s : int -> int -> int = <fun>
+# ( * );;
+- : int -> int -> int = <fun>
+# ( ** );;
+- : float -> float -> float = <fun>
+# (mod);;
+- : int -> int -> int = <fun>
+# (<);;
+- : 'a -> 'a -> bool = <fun>
+# (=);;
+- : 'a -> 'a -> bool = <fun>
+# (<>);;
+- : 'a -> 'a -> bool = <fun>
+# (&&);;
+- : bool -> bool -> bool = <fun>
+# (1 / 0 > 0);;
+Exception: Division_by_zero.
+# (&&) true (1 / 0 > 0);;
+Exception: Division_by_zero.
+# false && (1 / 0 > 0);; 
+- : bool = false
+# ( * ) 0 (1 / 0);;
+Exception: Division_by_zero.
+# let f (x,y) = 2 * x * y;;
+val f : int * int -> int = <fun>
+# f (2,4);;
+- : int = 16
+# let f = function (x,y) -> 2 * x + y;;
+val f : int * int -> int = <fun>
+# let rec sum_cifras n = (function true -> n | false -> ((function true -> sum_cifras(-n) | false -> (n mod 10) + sum_cifras(n / 10)) (n < 0))) ((n < 10) && (n >= 0));;
+val sum_cifras : int -> int = <fun>
+# sum_cifras 0b100000;;
+- : int = 5
+# sum_cifras (-3);;
+- : int = 3
+# let rec num_cifras n = (function true -> 1 | false -> ((function true -> num_cifras(-n) | false -> 1 + num_cifras(n / 10)) (n < 0))) ((n < 10) && (n >= 0));;
+val num_cifras : int -> int = <fun>
+# num_cifras 0b00000;;
+- : int = 1
+# num_cifras 0b100000;;
+- : int = 2
+# let f (x,y) = 2 * x + y;;
+val f : int * int -> int = <fun>
+# (2,3);; 
+- : int * int = (2, 3)
+# 2,3;;
+- : int * int = (2, 3)
+# "hola",3;;
+- : string * int = ("hola", 3)
+# (true, ()), abs;;
+- : (bool * unit) * (int -> int) = ((true, ()), <fun>)
+# let s' (x,y) = x + y;;
+val s' : int * int -> int = <fun>
+# s' (2,3);;
+- : int = 5
+# s 2 3;;
+- : int = 5
+# fst;;
+- : 'a * 'b -> 'a = <fun>
+# fst ("hola", true);;
+- : string = "hola"
+# fst "hola", true;;
+Error: This expression has type string but an expression was expected of type
+         'a * 'b
+# snd;;
+- : 'a * 'b -> 'b = <fun>
+# let fst (a,b) = a;;
+val fst : 'a * 'b -> 'a = <fun>
+# snd ("hola", true);;
+- : bool = true
+# 
+

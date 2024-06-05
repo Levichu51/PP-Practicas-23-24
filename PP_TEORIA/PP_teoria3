@@ -1,0 +1,151 @@
+# let v0 = (function x -> x) (x);;
+Error: Unbound value x
+# let v0 = (function x -> x * 2);;
+val v0 : int -> int = <fun>
+# v0 3;;
+- : int = 6
+# let v0 = function f -> 2 * f 1;;
+val v0 : (int -> int) -> int = <fun>
+# v0 5;;
+Error: This expression has type int but an expression was expected of type
+         int -> int
+# v0 abs;;
+- : int = 2
+# succ;;
+- : int -> int = <fun>
+# succ 1;;
+- : int = 2
+# succ 2;;
+- : int = 3
+# v0 succ;;
+- : int = 4
+# v0 pred;;
+- : int = 0
+# let v1 = function f -> f 1;;
+val v1 : (int -> 'a) -> 'a = <fun>
+# v1 abs;;
+- : int = 1
+# v1 succ;;
+- : int = 2
+# v1 float_of_int;;
+- : float = 1.
+# v1 char_of_int;;
+- : char = '\001'
+# let v2 = function x -> function f -> f 1;;
+val v2 : 'a -> (int -> 'b) -> 'b = <fun>
+# let s = function n -> (function i -> m + i);;
+Error: Unbound value m
+# let s = function n -> (function i -> n + i);;
+val s : int -> int -> int = <fun>
+# entra un int -> (int -> int);;
+Error: Syntax error
+# s 10;;
+- : int -> int = <fun>
+# (s 10) 2;;
+- : int = 12
+# s 10 2;;
+- : int = 12
+# (+);;
+- : int -> int -> int = <fun>
+# s 2;;
+- : int -> int = <fun>
+# let suc = (+) 1;;
+val suc : int -> int = <fun>
+# suc 2;;
+- : int = 3
+# let pre = (+) (-1);;
+val pre : int -> int = <fun>
+# pre 10;;
+- : int = 9
+# let op = (-) 0;;
+val op : int -> int = <fun>
+# let saluda_a = (^) "Hola, ";;
+val saluda_a : string -> string = <fun>
+# saluda_a manolo;;
+Error: Unbound value manolo
+# saluda a "lolo";;
+Error: Unbound value saluda
+Hint: Did you mean saluda_a?
+# saluda_a "lolo";;
+- : string = "Hola, lolo"
+# max;;
+- : 'a -> 'a -> 'a = <fun>
+# max 3;;
+- : int -> int = <fun>
+# max 3 4;;
+- : int = 4
+# max 4 3;;
+- : int = 4
+# max 'a' 'A';;
+- : char = 'a'
+# min;;
+- : 'a -> 'a -> 'a = <fun>
+# nd t# nd value saluda
+  Hintr: Did you mean saluda_a?
+  # saluda_a "lolo";;
+iError: Syntax error
+n## - :: string = "Hola, lolo"
+  # max;;
+ Error: Syntax error
+'## - :: 'a -> 'a -> 'a = <fun>
+  # max 3;;
+ iError: Syntax error
+# # - :: int -> int = <fun>
+  # max 3 4;;
+ Error: Syntax error
+i## - :: int = 4
+  # max 4 3;;
+ Error: Syntax error
+i## - :: int = 4
+  # max 'a' 'A';;
+ chError: Syntax error
+a # - : char = 'a'
+  # min;;
+: 'aError: Syntax error
+nd # nd value saluda  
+  Hint:  Did you mean saluda_a?
+  # saluda_a "lolo";;
+strinError: Syntax error
+g :# - :  string = "Hola, lolo"
+  # max;;
+'a -Error: Syntax error
+>## - ::  'a -> 'a -> 'a = <fun>
+  # max 3;;
+int Error: Syntax error
+-># - :: int -> int = <fun>
+  # max 3 4;;
+ int Error: Syntax error
+=## - :: int = 4
+  # max 4 3;;
+ int Error: Syntax error
+=## - :: int = 4
+  # max 'a' 'A';;
+ chaError: Syntax error
+r## - :: char = 'a'
+  # min;;
+ 'a Error: Syntax error
+-# > t# - :ring = " 'a -> 'a -> 'a =nd value saluda
+  Hint: Did you mean saluda_a?
+  # saluda_a "lolo";;
+Hola, loError: Syntax error
+lo"  # - a: ->  string = "Hola, lolo"
+  # max;;  
+'a -> 'a Error: Syntax error
+= <f## - n:t -> 'a -> 'a -> 'a = <fun>
+  # max 3;;
+ int = <fuError: Syntax error
+n>   # - n:t =  int -> int = <fun>
+  # max 3 4;;;;
+4 : i
+# max 4 3Error: Syntax error
+# - :#  int = 4
+  # max 4 3;; 4
+max 'a' 'A';
+Error# - ':ax error
+ int = 4
+  # max 'a' 'A';;
+# min;;            # - a: = char = 'a'
+  # min;;Syntax error
+Error: Syntax error
+# 
+

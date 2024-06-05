@@ -1,0 +1,427 @@
+let rec length l = 
+	if l = [] then 0
+	else 1 + length (List.tl l);;
+	
+
+let length ll =
+	let rec aux (l, i) =
+		if l = [] then i
+		else aux (List.tl l, i + 1)
+	int aux (ll, 0);;
+	
+let rec last l = 
+	if length l = 1 then List.hd l
+	else last (List.tl l);;
+	
+let rec last l = 
+	if List.tl l = [] then List.hd l   (* mejor opcion que la anterior, la anterior es muy rebuscada e inecesaria, computacionalmente es peor *) 
+	else last (List.tl l);;			
+	
+	
+let rec length = function
+	[] -> 0
+	| _ :: t -> 1 + lenght t;;
+	
+	
+let rec last = function 
+	h :: [] -> h 
+	| _ :: t -> last t;;
+	
+	
+List.compare_lengths;; (* compara 2 listas por longitud*)	
+
+
+let compare_length l1 l2 = compare (length l1) (length l2);;
+
+let rec compare_lengths l1 l2 = match (l1, l2) with 
+	[], [] -> 0
+	| [], _ -> -1  (*si es vacia alguna de las listas*)
+	| _, [] -> 1
+	| _ :: t1, _ :: t2 -> compare_lengths t1, t2;;
+
+
+
+# 2 :: [3;4];;
+- : int list = [2; 3; 4]
+# [2] :: [[1]]; [2;3]];;
+Error: Syntax error
+# [2] :: [[1]]; [2;3]];;
+Error: Syntax error
+# [2] :: [[1]; [2;3]];; 
+- : int list list = [[2]; [1]; [2; 3]]
+# 2 :: 1 :: 3 :: [];;
+- : int list = [2; 1; 3]
+# 2 :: (1 :: (3 :: []));;
+- : int list = [2; 1; 3]
+# let hd = funtion ()h :: t) -> h;;
+Error: Syntax error
+# let hd = funtion (h :: t) -> h;; 
+Error: Syntax error
+# let hd = function (h :: t) -> h;;
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+[]
+val hd : 'a list -> 'a = <fun>
+# let hd = function (h :: _) -> h;;
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+[]
+val hd : 'a list -> 'a = <fun>
+# let hd (h :: _) = h;;
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+[]
+val hd : 'a list -> 'a = <fun>
+# hd [];;
+Exception: Match_failure ("//toplevel//", 1, 7).
+# 
+
+
+
+
+let rec append l1 l2 = match l1 with 
+	[] -> l2
+	| h :: t -> h :: append t l2;;
+	
+
+let rec rev_append l1 l2 = match l1 with
+	[] -> l2
+	| h :: t -> rev_append t (h :: l2);;
+	
+	
+let rev l = rev_append l [];;
+
+let append' l1 l2 = rev_append (rev l1) l2;;
+
+
+let rec last = function
+	[] -> raise (Failure "last")
+	| h :: [] -> h
+	| _ :: t -> last t;;
+
+
+# List.append;;
+- : 'a list -> 'a list -> 'a list = <fun>
+# List.rev_append;;
+- : 'a list -> 'a list -> 'a list = <fun>
+# List.rev;;
+- : 'a list -> 'a list = <fun>
+# List.nth;;
+- : 'a list -> int -> 'a = <fun>
+# List.nth ['a'; 'b'; 'c'] 0;;
+- : char = 'a'
+# List.nth ['a'; 'b'; 'c'] 1;;
+- : char = 'b'
+# List.nth ['a'; 'b'; 'c'] 3;;
+Exception: Failure "nth".
+# List.nth ['a'; 'b'; 'c'] (-1);;
+Exception: Invalid_argument "List.nth".
+# Division_by_zero;;
+- : exn = Division_by_zero
+# Failure;;
+Error: The constructor Failure expects 1 argument(s),
+       but is applied here to 0 argument(s)
+# Failure "hd";;
+- : exn = Failure "hd"
+# Failure "Sa matao Paco";;
+- : exn = Failure "Sa matao Paco"
+# Invalid_argument "lolo";;
+- : exn = Invalid_argument "lolo"
+# raise;;
+- : exn -> 'a = <fun>
+# raise Division_by_zero;;
+Exception: Division_by_zero.
+# 1 + raise (Failure "Manolo!!");;
+Exception: Failure "Manolo!!".
+# last [];;                       
+Error: Unbound value last
+# 
+
+
+let rec lmax = function
+	[] -> raise (Failure "lmax")
+	| h :: [] -> h
+	| h :: t -> if h >= lmax t then h  (* devuelve el mayor de los elementos *) (*peor complejidad, muy lenta al haber 2 llamdas recursivas*)
+		    else lmax t;;
+
+		    
+let rec lmax2 = function
+	[] -> raise (Failure "lmax")
+	| h :: [] -> h
+	| h :: t ->  let m = lmax2 t in (*otra opcion -> max h (lmax2 t)*)
+				if h >= m then h
+				else m;; (*no es terminal*)
+				
+				
+let lmax' = function
+	[] -> raise (Failure "lmax")
+	| h :: t -> let rec loop m = function
+			[] -> m
+		       | h' :: t' -> loop (max m h') t'
+		       in loop h t;;
+
+
+let rec lmax3 = function
+	[] -> raise (Failure "lmax")
+	| h :: [] -> h
+	| h1 :: h2 :: t -> lmax3 (max h1 h2 :: t);;
+	
+	
+let sumlist l = List.fold_left + 0 l;;
+
+
+let length l = List.fold_left (fun n _ -> n + 1) 0 l;;
+
+
+let rec sorted = function
+	[] -> true
+	| _ :: [] -> true
+	| h1 :: h2 :: t -> h1 <= h2 && sorted (h2 :: t);;
+	
+	
+let rec g_sorted ord = function
+	[] -> true
+	| _ :: [] -> true
+	| h1 :: h2 :: t -> ord h1 h2 && g_sorted ord (h2 :: t);;	
+
+
+
+let rec insert x = function
+	[] -> [x]
+	| h :: t -> if x <= h then x :: h :: t
+			else h :: insert x t;; (* no es terminal*)
+			
+
+let rec isort = function 
+	[] -> []
+	| h :: t -> insert h (isort t);;	
+
+	
+	
+
+
+
+	
+let crono n = 
+	let t = Sys.time () in
+	let _ = f x in
+	Sys.time () -. t;;
+	
+
+let rlist n =
+	let r = 4 * n in
+	List.init n (fun _ -> Random.int r);;
+	
+
+let rec split l = match l with
+	h1::h2::t -> let t1, t2 = split t
+		in h1::t1, h2::t2
+| _ -> l, []
+
+
+	
+let rec split = function
+	[] -> [], []
+	| h :: [] -> [h], []
+	| h1 :: h2 :: t ->
+			let t1, t2 = split t 
+					in (h1 :: t1 , h2 :: t2);; (*t1 = fst p y t2 = snd p*)
+	
+	
+	
+let rec merge = function
+	h1 :: t1, h2 :: t2 -> if h1 <= h2 then h1 :: merge (t1, h2 :: t2)
+					else h2 :: merge (h1 :: t1, t2)
+ 	| [], l | l, [] -> l;;
+ 	
+ 	
+let rec msort l = 
+	[] -> [] | [h] -> [h]
+	| l -> let l1, l2 = split l in
+	merge (msort l1, msort l2);; 		
+	
+	
+	
+(* OPT *)
+
+let print_first_pos l = 
+	print_endline (string_of_int (List.find ((<) 0) l));;
+	
+let print_first_pos l = 
+	match List.find_opt ((<) 0) l with
+	None -> print_endline "No había ningún positivo"
+	| Some n -> print_endline (string_of_int n);;
+	
+# None;;
+- : 'a option = None
+# Some 3;;
+- : int option = Some 3
+# Some true;;
+- : bool option = Some true
+# [Some 2 ; Some 3; None];;
+- : int option list = [Some 2; Some 3; None]
+# List.find;;
+- : ('a -> bool) -> 'a list -> 'a = <fun>
+# List.find ((<) 0);;
+- : int list -> int = <fun>
+# List.find ((<) 0) [0;1;-1];; 
+- : int = 1
+# List.find ((<) 0) [0;-1;-1];;
+Exception: Not_found.
+# List.find_opt;;
+- : ('a -> bool) -> 'a list -> 'a option = <fun>
+# List.find_opt ((<) 0) [0;-1;-1];;
+- : int option = None
+# List.find_opt ((<) 0) [0;1;-1];; 
+- : int option = Some 1
+
+
+(* Problema de las n reinas *)
+
+let come (i1, j1) (i2, j2) = 
+	i1 = i2 || j1 = j2 || abs (i2 - i1) = abs (j2 - j1);;
+
+
+let compatible p l = 
+	not (List.exists (come p) l);;
+	
+	
+let queens n = 
+	let rec completa path i j = 
+		if i > n then Some path
+		else if j > n then None
+		else if compatible (i, j) path
+			then match completa path ((i,j) :: path) (i + 1) 1 with
+				None -> completa path i (j + 1)
+				| Some p -> Some p
+			else completa path i (j + 1);;
+		in completa [] 1 1;;
+	
+let queens n = 
+	let rec completa path i j = 
+		if i > n then Some path
+		else if j > n then None
+		else if compatible (i, j) path
+			then try completa path ((i,j) :: path) (i + 1) 1 with
+			     	Not_found -> completa path i (j + 1)
+			else completa path i (j + 1);; 
+		in completa [] 1 1;;
+	
+	
+let find_opt p l = 
+    try Some List.find p l with
+	Not_found -> None;;
+	
+	
+let nth_opt l n = 
+	try Some (List.nth l n) with 
+	_ -> None;; (* cubre bien los errores de la funcion List.nth cosa que en la anterior no es posible *)
+		
+	
+type numero = I of int | F of float;;
+
+# I 5;;
+- : numero = I 5
+# [I 2; I 3; F 1.4; F 2.0];;
+- : numero list = [I 2; I 3; F 1.4; F 2.]
+
+	
+let rec first_int = function
+	[] -> raise Not_found
+	| I n :: _ -> n
+	| _ :: t -> firs_int t;;
+	
+	
+type otroint = Otro of int;;
+
+type doble_int = L of int | R of int | V of int;;
+
+type intoption = Some of int | None;;
+
+type intoption = Int of int | Na;;
+	
+let div i1 i2 = match (i1, i2) with
+	(_, Int 0) -> Na
+	| (Int n1, Int n2) -> Int (n1 / n2)
+	| _ -> Na;;
+	
+	(* (Int n1, Int n2) -> (try Int (n1 / n2) with 
+				Division_by_zero -> Na)
+	| _ -> Na;; *)
+
+let (//) = div;;
+
+
+type boolean = True | False;;
+
+type palo = Corazon | Trebol | Pica | Diamante;;
+
+let esrojo = 
+	Corazon | Diamante -> True
+	| _ -> False;;
+	
+	
+let (!) = function True -> False | False -> True;;
+
+let esnegro p = ! (esrojo);;
+
+type nat = One | Succ of nat;;
+
+let rec nat_of_int = function 
+	1 -> One
+	| n -> Succ (nat_of_int (n - 1));; (* no terminal *)
+		
+	
+type entero = Zero | Pos of nat | Neg of nat;;
+
+
+let absoluto = function
+	Neg n -> Pos n;;
+	| e -> e;;
+	
+	
+let opuesto = function
+	Neg n -> Pos n
+	| Pos n -> Neg n
+	| Zero -> Zero;;
+	
+	
+let entero_of_int = function
+	0 -> Zero
+	| n -> if n > 0 then Pos (nat_of_int n)
+		else Neg (nat_of_int (-n));;
+		
+type 'a lista = None | Some of 'a;;
+
+type 'a lista = Vacia | Cons of 'a * 'a lista;;	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		 
+	 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+

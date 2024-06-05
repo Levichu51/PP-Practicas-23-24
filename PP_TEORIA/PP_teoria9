@@ -1,0 +1,149 @@
+type 'a bintree =
+    Empty
+  | Node of 'a * 'a bintree * 'a bintree;;
+  
+  
+  
+let t11 = Node (2, Empty, Empty);; 
+
+let h x = Node (x, Empty, Empty);;
+
+let t12 = Node (6, h 5, h 11);;
+
+let t22 = Node (9, h 4, Empty);;
+
+let t1 = Node (7, t11, t12);;
+
+let t2 = Node (5, Empty, t22);;
+
+let t = Node (2, t1, t2);;
+
+
+
+let rec nnodos = function
+    Empty -> 0
+  | Node (_, i, d) -> 1 + nnodos(i) + nnodos(d);;   
+
+
+let rec altura = function
+    Empty -> 0
+  | Node (_, i, d) -> 1 + max (altura i) (altura d);;  
+  
+  
+let rec tmax = function
+   Empty -> raise (Invalid_argument "tmax")
+ | Node (r, Empty, Empty) -> r
+ | Node (r, rama, Empty) 
+ | Node (r, Empty, rama) -> max r (tmax rama)
+ | Node (r, i, d) -> max r (max (tmax i) (tmax d));;
+ 
+ 
+let rec preorden = function
+    Empty -> []
+  | Node (r, i, d) -> r :: preorden i @ preorden d;;     
+
+
+let rec inorden = function
+  | Empty -> []
+  | Node (r, i, d) -> inorden i @ [r] @ inorden d;;
+
+
+let rec postorden = function
+  | Empty -> []
+  | Node (r, i, d) -> postorden i @ postorden d @ [r];;
+
+
+let rec por_niveles arbol =
+  let rec aux cola accu = match cola with
+    | [] -> List.rev accu
+    | Empty :: tl -> aux tl accu
+    | Node (r, i, d) :: tl -> aux (tl @ [i; d]) (r :: accu)
+  in
+  aux [arbol] [];;
+
+
+let rec hojas = function
+    Empty -> []
+  | Node (, Empty, Empty) -> []
+  | Node (_, i, d) -> hojas i @ hojas d;;
+  
+  
+  
+  
+  estrict arbol binario (0 ou 2 fillos)
+
+
+type 'a st_bintree =
+    Node of 'a * 'a st_bintree * 'a st_bintree
+  | Leaf of 'a;;
+  
+
+let t_e = Node ('E', Leaf 'F', Leaf 'G');; 
+
+let t_b = Node ('B', Leaf 'D', t_e);;
+
+let t = Node ('A', t_b, Leaf 'C');;
+
+
+let rec hojas = function
+    Leaf v -> [v]
+  | Node (_, i, d) -> hojas i @ hojas d;;
+  
+  
+# #load "st_bintree.cmo";;  (Para añadir modulos)
+
+open St_bintree;;
+
+
+
+
+type 'a tree = 
+    T of 'a * 'a tree list;;
+    
+# #laod "tree.cmo";;
+open Tree;;
+
+let r v = T (v, []);;
+
+let t_6 = T (6, [r 5; r 11]);;
+
+let t_7 = T (7, [r 2; r 10; t_6]);;
+
+let t_9 = T (9, [r 4]);;
+
+let t_5 = T (5, [t_9]);;
+
+let t = T (2, [t7, t5]);;
+
+
+let rec nnodos (T (_, lr)) =
+     List.fold_left (+) 1 (List.map nnodmos lr);;
+                           Rec.map
+      
+let rec nnodos (T (_, lr)) =
+     List.fold_left (fun n t -> n + nnodos t) 1 lr;;                      
+     
+     
+let rec nnodos = function
+    T (_, []) -> 1
+  | T (r, h::t) -> nnodos h + nnodos (T (r, t));;        
+
+        
+    
+type 'a ne_bintree = 
+    Node of 'a * 'a ne_bintree option * 'a 
+ne_bintree option;;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

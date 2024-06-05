@@ -1,0 +1,87 @@
+let find_opt p l = 
+    try Some List.find p l with
+	Not_found -> None;;
+	
+	
+let nth_opt l n = 
+	try Some (List.nth l n) with 
+	_ -> None;; (* cubre bien los errores de la funcion List.nth cosa que en la anterior no es posible *)
+		
+	
+type numero = I of int | F of float;;
+
+# I 5;;
+- : numero = I 5
+# [I 2; I 3; F 1.4; F 2.0];;
+- : numero list = [I 2; I 3; F 1.4; F 2.]
+
+	
+let rec first_int = function
+	[] -> raise Not_found
+	| I n :: _ -> n
+	| _ :: t -> firs_int t;;
+	
+	
+type otroint = Otro of int;;
+
+type doble_int = L of int | R of int | V of int;;
+
+type intoption = Some of int | None;;
+
+type intoption = Int of int | Na;;
+	
+let div i1 i2 = match (i1, i2) with
+	(_, Int 0) -> Na
+	| (Int n1, Int n2) -> Int (n1 / n2)
+	| _ -> Na;;
+	
+	(* (Int n1, Int n2) -> (try Int (n1 / n2) with 
+				Division_by_zero -> Na)
+	| _ -> Na;; *)
+
+let (//) = div;;
+
+
+type boolean = True | False;;
+
+type palo = Corazon | Trebol | Pica | Diamante;;
+
+let esrojo = 
+	Corazon | Diamante -> True
+	| _ -> False;;
+	
+	
+let (!) = function True -> False | False -> True;;
+
+let esnegro p = ! (esrojo);;
+
+type nat = One | Succ of nat;;
+
+let rec nat_of_int = function 
+	1 -> One
+	| n -> Succ (nat_of_int (n - 1));; (* no terminal *)
+		
+	
+type entero = Zero | Pos of nat | Neg of nat;;
+
+
+let absoluto = function
+	Neg n -> Pos n;;
+	| e -> e;;
+	
+	
+let opuesto = function
+	Neg n -> Pos n
+	| Pos n -> Neg n
+	| Zero -> Zero;;
+	
+	
+let entero_of_int = function
+	0 -> Zero
+	| n -> if n > 0 then Pos (nat_of_int n)
+		else Neg (nat_of_int (-n));;
+		
+type 'a lista = None | Some of 'a;;
+
+type 'a lista = Vacia | Cons of 'a * 'a lista;;	
+		

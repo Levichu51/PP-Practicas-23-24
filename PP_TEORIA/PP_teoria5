@@ -1,0 +1,76 @@
+ true, 0, "trio";;
+- : bool * int * string = (true, 0, "trio")
+# (true, 0), "falso trio";;
+- : (bool * int) * string = ((true, 0), "falso trio")
+# let p = (true, 0), "falso trio";;
+val p : (bool * int) * string = ((true, 0), "falso trio")
+# fst p;;
+- : bool * int = (true, 0)
+# snd p;;
+- : string = "falso trio"
+# let x, y = p;;
+val x : bool * int = (true, 0)
+val y : string = "falso trio"
+# let 0 = 1 - 1;;
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+1
+# 0;;
+- : int = 0
+# let 0 = 1 + 1;;
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+1
+Exception: Match_failure ("//toplevel//", 1, 4).
+# let "hola" = 1 - 1;;
+Error: This expression has type int but an expression was expected of type
+         string
+# let x, y = 0;;
+Error: This expression has type int but an expression was expected of type
+         'a * 'b
+# x;;
+- : bool * int = (true, 0)
+# y;;
+- : string = "falso trio"
+# let x, y = 2, 3;;
+val x : int = 2
+val y : int = 3
+# let x, y = x + y, x * y in x + y;;
+- : int = 11
+# x + y ;;
+- : int = 5
+# let f x y z = x + 2 * y + z * z;;
+val f : int -> int -> int -> int = <fun>
+# 
+  f 2 3 4;;
+- : int = 24
+# let f' (x, y, z) = x + 2 * y + z * z;;
+val f' : int * int * int -> int = <fun>
+# f' (2,3,4);;
+- : int = 24
+# let sp = x + y, x * y;;
+val sp : int * int = (5, 6)
+# let sp' (x,y) = x + y, x * y;;
+val sp' : int * int -> int * int = <fun>
+# let per_area r = let pi 2. *. asin 1. in 2. *. pi *. r, pi *. r *. r;;
+Error: Syntax error
+# let per_area r = let pi 2. *. asin 1. in 2. *. pi *. r, pi *. r *. r;;
+Error: Syntax error
+# let per_area r = let pi =  2. *. asin 1. in 2. *. pi *. r, pi *. r *. r;;
+val per_area : float -> float * float = <fun>
+# per_area 2;;
+Error: This expression has type int but an expression was expected of type
+         float
+# per_area 2.;;
+- : float * float = (12.5663706143591725, 12.5663706143591725)
+# per_area 1.;;
+- : float * float = (6.28318530717958623, 3.14159265358979312)
+# let per_area r = function r -> let pi =  2. *. asin 1. in 2. *. pi *. r, pi *. r *. r;;
+val per_area : 'a -> float -> float * float = <fun>
+#              
+  ;;
+# let per_area r = let pi = 2. *. asin 1. in function r -> 2. *. asin 1. in 2. *# let per_area r = let pi = 2. *. asin 1. in function r -> 2. *. asin 1. in 2. *. pi *. r, pi *. r *. r;;
+Error: Unbound value pi
+# let per_area r = let pi = 2. *. asin 1. in function r -> 2. *. asin 1. in 2. *# let per_area r = let pi = 2. *. asin 1. in function r -> 2. *. asin 1. in 2. *. pi *. r, pi *. r *. r;;
+Error: Unbound value pi
+#   de esta manera pi solo se ejecuta una sola vez y queda calculado y no como la otra, que se calcula 2 veces cada vez que se usa para cada x,y
